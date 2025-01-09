@@ -1,7 +1,6 @@
 import { app, BrowserWindow, RenderProcessGoneDetails, ipcMain } from 'electron'
 import Constants from './utils/Constants'
 import IPCs from './IPCs'
-import { resolve } from 'path'
 
 const exitApp = (mainWindow: BrowserWindow): void => {
   if (mainWindow && !mainWindow.isDestroyed()) {
@@ -20,7 +19,23 @@ export const createMainWindow = async (mainWindow: BrowserWindow): Promise<Brows
     frame: false, // Make window frameless
     titleBarStyle: process.platform === 'darwin' ? 'hidden' : 'default',
     useContentSize: true,
-    webPreferences: Constants.DEFAULT_WEB_PREFERENCES
+    webPreferences: {
+      nodeIntegration: false,
+      contextIsolation: true,
+      sandbox: true,
+      webSecurity: true,
+      ...Constants.DEFAULT_WEB_PREFERENCES
+    }
+  })
+
+  // Set CSP in header (backup)
+  mainWindow.webContents.session.webRequest.onHeadersReceived((details, callback) => {
+    callback({
+      responseHeaders: {
+        ...details.responseHeaders,
+        'Content-Security-Policy': ['default-src \'self\'; script-src \'self\'; style-src \'self\' \'unsafe-inline\'; img-src \'self\' data: https:; font-src \'self\' data:; connect-src \'self\' https:']
+      }
+    })
   })
 
   mainWindow.setMenu(null)
