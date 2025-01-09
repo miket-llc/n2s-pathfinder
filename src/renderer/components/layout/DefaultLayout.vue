@@ -1,14 +1,16 @@
-<script setup lang="tsx">
-import HeaderLayout from '@/renderer/components/layout/HeaderLayout.vue'
-</script>
+<script setup lang="tsx"></script>
 
 <template>
   <v-app>
-    <v-layout>
-      <HeaderLayout />
-      <v-main>
-        <slot />
-      </v-main>
-    </v-layout>
+    <slot name="titlebar"></slot>
+    <v-main class="main-content">
+      <slot></slot>
+    </v-main>
   </v-app>
 </template>
+
+<style scoped>
+.main-content {
+  padding-top: 32px;
+}
+</style>

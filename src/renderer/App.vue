@@ -1,9 +1,13 @@
 <script setup lang="tsx">
 import { DefaultLayout } from '@/renderer/components/layout'
+import CustomTitleBar from '@/renderer/components/CustomTitleBar.vue'
 </script>
 
 <template>
   <DefaultLayout>
+    <template #titlebar>
+      <CustomTitleBar />
+    </template>
     <router-view />
   </DefaultLayout>
 </template>

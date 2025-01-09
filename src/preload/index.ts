@@ -48,3 +48,10 @@ contextBridge.exposeInMainWorld('mainApi', {
     throw new Error(`Unknown ipc channel name: ${channel}`)
   }
 })
+
+contextBridge.exposeInMainWorld('electronAPI', {
+  platform: process.platform,
+  send: (channel: string, data: any) => {
+    ipcRenderer.send(channel, data)
+  }
+})
