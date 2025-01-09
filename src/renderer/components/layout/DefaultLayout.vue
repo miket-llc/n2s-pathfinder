@@ -14,7 +14,7 @@ import StatusBar from '@/renderer/components/StatusBar.vue'
 
 <style scoped>
 .main-content {
-  padding-top: 32px !important;
+  padding-top: 0 !important;  /* Remove extra padding since titlebar handles its own height */
   padding-bottom: 22px !important;
 }
 </style>
