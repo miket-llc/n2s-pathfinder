@@ -22,6 +22,6 @@ const status = ref('Ready')
   min-height: 22px !important;
   max-height: 22px !important;
   z-index: 999;
-  border-top: 1px solid var(--v-border-color);
+  border-top: 1px solid rgba(128, 128, 128, 0.35);
 }
 </style>
