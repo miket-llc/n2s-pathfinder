@@ -1,7 +1,9 @@
 <template>
   <v-system-bar
     window
-    :color="theme.global.current.value.dark ? 'surface' : 'background'"
+    :color="theme.global.current.value.dark
+      ? (isFocused ? 'surface' : '#0a0c0f')
+      : (isFocused ? 'background' : '#f3f3f3')"
     class="custom-titlebar"
   >
     <template v-if="!isMacOS">
@@ -40,13 +42,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import { useTheme } from 'vuetify'
 
 const theme = useTheme()
 const title = 'N2S Pathfinder'
 const isMacOS = window.electronAPI.platform === 'darwin'
 const isMaximized = ref(false)
+const isFocused = ref(true)
 
 const windowControl = (action: string) => {
   window.electronAPI.send('window-controls', action)
@@ -54,6 +57,19 @@ const windowControl = (action: string) => {
     isMaximized.value = !isMaximized.value
   }
 }
+
+const updateFocus = (event: any, focused: boolean) => {
+  isFocused.value = focused
+}
+
+onMounted(() => {
+  window.mainApi.on('window-focused', updateFocus)
+  window.mainApi.send('window-state')
+})
+
+onUnmounted(() => {
+  window.mainApi.off('window-focused', updateFocus)
+})
 </script>
 
 <style scoped>

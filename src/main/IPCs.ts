@@ -1,4 +1,4 @@
-import { ipcMain, shell, IpcMainEvent, dialog } from 'electron'
+import { ipcMain, shell, IpcMainEvent, dialog, BrowserWindow } from 'electron'
 import Constants from './utils/Constants'
 
 /*
@@ -29,6 +29,22 @@ export default class IPCs {
         filters
       })
       return dialogResult
+    })
+
+    // Window state
+    ipcMain.on('window-state', (event) => {
+      const win = BrowserWindow.fromWebContents(event.sender)
+      event.reply('window-focused', win?.isFocused())
+    })
+
+    // Add focus/blur listeners
+    BrowserWindow.getAllWindows().forEach(win => {
+      win.on('focus', () => {
+        win.webContents.send('window-focused', true)
+      })
+      win.on('blur', () => {
+        win.webContents.send('window-focused', false)
+      })
     })
   }
 }
