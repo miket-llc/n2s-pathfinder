@@ -2,7 +2,6 @@
   <v-system-bar
     window
     :color="theme.global.current.value.dark ? 'surface' : 'background'"
-    :height="isMacOS ? '28' : '32'"
     class="custom-titlebar"
   >
     <template v-if="!isMacOS">
@@ -65,8 +64,8 @@ const windowControl = (action: string) => {
   top: 0;
   left: 0;
   right: 0;
-  z-index: 9999;  /* Increase z-index to be above all */
-  height: 32px;   /* Explicit height */
+  height: 32px;
+  z-index: 1000;
 }
 
 .v-btn {
