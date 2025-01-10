@@ -18,10 +18,7 @@
       "@/*": ["./src/*"]
     },
     "lib": ["esnext", "dom"],
-    "typeRoots": [
-      "./node_modules/@types",
-      "./src/renderer/types"
-    ]
+    "typeRoots": ["./node_modules/@types", "./src/renderer/types"]
   },
   "include": ["src/*.ts", "src/*.d.ts", "src/renderer"],
   "references": [

@@ -9,9 +9,7 @@ const mainAvailChannels: string[] = [
   'window-state'
 ]
 
-const rendererAvailChannels: string[] = [
-  'window-focused'
-]
+const rendererAvailChannels: string[] = ['window-focused']
 
 contextBridge.exposeInMainWorld('mainApi', {
   platform: process.platform,

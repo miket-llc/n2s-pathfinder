@@ -38,7 +38,7 @@ export default class IPCs {
     })
 
     // Add focus/blur listeners
-    BrowserWindow.getAllWindows().forEach(win => {
+    BrowserWindow.getAllWindows().forEach((win) => {
       win.on('focus', () => {
         win.webContents.send('window-focused', true)
       })

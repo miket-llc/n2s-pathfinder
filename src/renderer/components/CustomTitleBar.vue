@@ -1,18 +1,19 @@
 <template>
   <v-system-bar
     window
-    :color="theme.global.current.value.dark
-      ? (isFocused ? 'surface' : '#0a0c0f')
-      : (isFocused ? 'background' : '#f3f3f3')"
+    :color="
+      theme.global.current.value.dark
+        ? isFocused
+          ? 'surface'
+          : '#0a0c0f'
+        : isFocused
+          ? 'background'
+          : '#f3f3f3'
+    "
     class="custom-titlebar"
   >
     <template v-if="!isMacOS">
-      <v-img
-        src="/icon.png"
-        width="16"
-        height="16"
-        class="mr-2"
-      />
+      <v-img src="/icon.png" width="16" height="16" class="mr-2" />
       <span class="text-body-2">{{ title }}</span>
       <v-spacer />
       <v-btn
@@ -47,12 +48,12 @@ import { useTheme } from 'vuetify'
 
 const theme = useTheme()
 const title = 'N2S Pathfinder'
-const isMacOS = window.electronAPI.platform === 'darwin'
+const isMacOS = window.mainApi.platform === 'darwin'
 const isMaximized = ref(false)
 const isFocused = ref(true)
 
 const windowControl = (action: string) => {
-  window.electronAPI.send('window-controls', action)
+  window.mainApi.send('window-controls', action)
   if (action === 'maximize') {
     isMaximized.value = !isMaximized.value
   }

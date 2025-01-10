@@ -1,10 +1,7 @@
-<script setup lang="tsx">
-</script>
+<script setup lang="tsx"></script>
 
 <template>
-  <v-container fluid class="fill-height pa-0">
-  </v-container>
+  <v-container fluid class="fill-height pa-0"> </v-container>
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>
