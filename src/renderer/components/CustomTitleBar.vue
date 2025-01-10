@@ -45,6 +45,7 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
 import { useTheme } from 'vuetify'
+import type { IpcRendererEvent } from 'electron'
 
 const theme = useTheme()
 const title = 'N2S Pathfinder'
@@ -52,24 +53,32 @@ const isMacOS = window.mainApi.platform === 'darwin'
 const isMaximized = ref(false)
 const isFocused = ref(true)
 
-const windowControl = (action: string) => {
+type WindowAction = 'minimize' | 'maximize' | 'close'
+
+const windowControl = (action: WindowAction) => {
   window.mainApi.send('window-controls', action)
   if (action === 'maximize') {
     isMaximized.value = !isMaximized.value
   }
 }
 
-const updateFocus = (event: any, focused: boolean) => {
+const updateFocus = (event: IpcRendererEvent, focused: boolean) => {
   isFocused.value = focused
+}
+
+const updateWindowState = (event: IpcRendererEvent, maximized: boolean) => {
+  isMaximized.value = maximized
 }
 
 onMounted(() => {
   window.mainApi.on('window-focused', updateFocus)
-  window.mainApi.send('window-state')
+  window.mainApi.on('window-state', updateWindowState)
+  window.mainApi.send('window-state', false) // Add initial state payload
 })
 
 onUnmounted(() => {
   window.mainApi.off('window-focused', updateFocus)
+  window.mainApi.off('window-state', updateWindowState)
 })
 </script>
 
