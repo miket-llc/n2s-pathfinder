@@ -6,12 +6,12 @@ const mainAvailChannels: string[] = [
   'msgOpenExternalLink',
   'msgOpenFile',
   'window-controls',
-  'window-state'  // Add this channel
+  'window-state' // Add this channel
 ]
 
 const rendererAvailChannels: string[] = [
   'window-focused',
-  'window-state'   // Add this channel
+  'window-state' // Add this channel
 ]
 
 contextBridge.exposeInMainWorld('mainApi', {

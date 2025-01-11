@@ -12,10 +12,39 @@
     "
     class="custom-titlebar"
   >
+    <v-img v-if="!isMacOS" src="/icon.png" width="16" height="16" class="mr-2" />
+    <span v-if="!isMacOS" class="text-body-2">{{ title }}</span>
+    <div v-else class="text-center flex-grow-1 text-body-2">{{ title }}</div>
+    <v-spacer />
+    <v-btn
+      variant="text"
+      density="compact"
+      size="x-small"
+      :ripple="false"
+      icon="mdi-dock-left"
+      :color="getDrawerColor(leftDrawerOpen)"
+      @click="leftDrawerOpen = !leftDrawerOpen"
+    />
+    <v-btn
+      variant="text"
+      density="compact"
+      size="x-small"
+      :ripple="false"
+      icon="mdi-dock-bottom"
+      :color="getDrawerColor(bottomDrawerOpen)"
+      @click="bottomDrawerOpen = !bottomDrawerOpen"
+    />
+    <v-btn
+      variant="text"
+      density="compact"
+      size="x-small"
+      :ripple="false"
+      icon="mdi-dock-right"
+      :color="getDrawerColor(rightDrawerOpen)"
+      @click="rightDrawerOpen = !rightDrawerOpen"
+    />
     <template v-if="!isMacOS">
-      <v-img src="/icon.png" width="16" height="16" class="mr-2" />
-      <span class="text-body-2">{{ title }}</span>
-      <v-spacer />
+      <v-divider vertical class="mx-2" />
       <v-btn
         variant="text"
         density="comfortable"
@@ -35,9 +64,6 @@
         color="error"
         @click="windowControl('close')"
       />
-    </template>
-    <template v-else>
-      <div class="text-center flex-grow-1 text-body-2">{{ title }}</div>
     </template>
   </v-system-bar>
 </template>
@@ -70,6 +96,17 @@ const updateWindowState = (event: IpcRendererEvent, maximized: boolean) => {
   isMaximized.value = maximized
 }
 
+const leftDrawerOpen = ref(true)
+const bottomDrawerOpen = ref(true)
+const rightDrawerOpen = ref(true)
+
+const getDrawerColor = (isOpen: boolean) => {
+  if (theme.global.current.value.dark) {
+    return isOpen ? 'grey-lighten-1' : 'grey-darken-3'
+  }
+  return isOpen ? 'grey-darken-1' : 'grey-lighten-1'
+}
+
 onMounted(() => {
   window.mainApi.on('window-focused', updateFocus)
   window.mainApi.on('window-state', updateWindowState)
@@ -86,15 +123,45 @@ onUnmounted(() => {
 .custom-titlebar {
   -webkit-app-region: drag;
   user-select: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 32px;
-  z-index: 1000;
 }
 
-.v-btn {
+.drawer-controls {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-right: 8px;
+}
+
+:deep(.v-btn) {
   -webkit-app-region: no-drag;
+  height: 24px !important;
+  width: 24px !important;
+  margin: 0 1px;
+  border-radius: 4px !important;
+}
+
+:deep(.v-btn:hover) {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+:deep(.v-theme--light .v-btn:hover) {
+  background-color: rgba(0, 0, 0, 0.05) !important;
+}
+
+:deep(.v-btn::before) {
+  display: none !important;
+}
+
+:deep(.v-ripple__container) {
+  display: none !important;
+}
+
+:deep(.v-btn__content) {
+  font-size: 14px;
+}
+
+:deep(.v-divider) {
+  height: 14px;
+  align-self: center;
 }
 </style>
