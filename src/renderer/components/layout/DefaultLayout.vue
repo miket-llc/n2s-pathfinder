@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
+import { useTheme } from 'vuetify'
 import StatusBar from '@/renderer/components/StatusBar.vue'
 
 const props = defineProps({
@@ -77,6 +78,13 @@ const startBottomResize = (e: MouseEvent) => {
   window.addEventListener('mousemove', resize)
   window.addEventListener('mouseup', stopResize)
 }
+
+const theme = useTheme()
+const handleColor = computed(() =>
+  theme.global.current.value.dark
+    ? 'rgba(31, 111, 235, 0.5)'  // githubDark primary with opacity
+    : 'rgba(9, 105, 218, 0.3)'   // githubLight primary with opacity
+)
 </script>
 
 <template>
@@ -206,20 +214,23 @@ const startBottomResize = (e: MouseEvent) => {
 
 .resize-handle {
   position: absolute;
-  cursor: col-resize;
+  background-color: transparent;
+  transition: background-color 0.2s;
   z-index: 101;
+}
+
+.resize-handle:hover {
+  background-color: v-bind(handleColor);
+}
+
+.resize-handle.right, .resize-handle.left {
+  width: 4px;
+  height: 100%;
+  cursor: col-resize;
 }
 
 .resize-handle.right {
   right: -2px;
-  width: 4px;
-  height: 100%;
-}
-
-.resize-handle.left {
-  left: -2px;
-  width: 4px;
-  height: 100%;
 }
 
 .resize-handle.top {
@@ -227,11 +238,6 @@ const startBottomResize = (e: MouseEvent) => {
   width: 100%;
   height: 4px;
   cursor: row-resize;
-}
-
-.resize-handle:hover {
-  background: var(--v-primary-base);
-  opacity: 0.1;
 }
 
 :deep(.custom-titlebar) {
