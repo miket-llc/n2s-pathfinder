@@ -2,6 +2,12 @@
 import { ref } from 'vue'
 import StatusBar from '@/renderer/components/StatusBar.vue'
 
+const props = defineProps({
+  leftDrawerOpen: { type: Boolean, default: true },
+  rightDrawerOpen: { type: Boolean, default: true },
+  bottomDrawerOpen: { type: Boolean, default: true }
+})
+
 const leftDrawerWidth = ref(240)
 const rightDrawerWidth = ref(240)
 const bottomDrawerHeight = ref(200)
@@ -11,10 +17,12 @@ const startLeftResize = (e: MouseEvent) => {
   const startWidth = leftDrawerWidth.value
 
   const resize = (e: MouseEvent) => {
-    const newWidth = startWidth + (e.clientX - startX)
-    if (newWidth >= 160 && newWidth <= 600) {
-      leftDrawerWidth.value = newWidth
-    }
+    requestAnimationFrame(() => {
+      const newWidth = startWidth + (e.clientX - startX)
+      if (newWidth >= 160 && newWidth <= 600) {
+        leftDrawerWidth.value = newWidth
+      }
+    })
   }
 
   const stopResize = () => {
@@ -31,10 +39,12 @@ const startRightResize = (e: MouseEvent) => {
   const startWidth = rightDrawerWidth.value
 
   const resize = (e: MouseEvent) => {
-    const newWidth = startWidth - (e.clientX - startX)
-    if (newWidth >= 160 && newWidth <= 600) {
-      rightDrawerWidth.value = newWidth
-    }
+    requestAnimationFrame(() => {
+      const newWidth = startWidth - (e.clientX - startX)
+      if (newWidth >= 160 && newWidth <= 600) {
+        rightDrawerWidth.value = newWidth
+      }
+    })
   }
 
   const stopResize = () => {
@@ -51,10 +61,12 @@ const startBottomResize = (e: MouseEvent) => {
   const startHeight = bottomDrawerHeight.value
 
   const resize = (e: MouseEvent) => {
-    const newHeight = startHeight - (e.clientY - startY)
-    if (newHeight >= 100 && newHeight <= 500) {
-      bottomDrawerHeight.value = newHeight
-    }
+    requestAnimationFrame(() => {
+      const newHeight = startHeight - (e.clientY - startY)
+      if (newHeight >= 100 && newHeight <= 400) {
+        bottomDrawerHeight.value = newHeight
+      }
+    })
   }
 
   const stopResize = () => {
@@ -71,31 +83,49 @@ const startBottomResize = (e: MouseEvent) => {
   <v-app>
     <slot name="titlebar"></slot>
 
-    <div class="left-drawer">
-      <div class="resize-handle" @mousedown.prevent="startLeftResize"></div>
-      <v-toolbar density="compact" color="surface" class="drawer-header">
-        <v-toolbar-title class="text-caption">Explorer</v-toolbar-title>
-      </v-toolbar>
+    <!-- Left Drawer -->
+    <div
+      v-show="props.leftDrawerOpen"
+      class="left-drawer"
+      :style="{ width: leftDrawerWidth + 'px' }"
+    >
+      <div class="resize-handle right" @mousedown="startLeftResize"></div>
       <slot name="left-drawer"></slot>
     </div>
 
-    <div class="right-drawer">
-      <div class="resize-handle" @mousedown.prevent="startRightResize"></div>
-      <v-toolbar density="compact" color="surface" class="drawer-header">
-        <v-toolbar-title class="text-caption">Details</v-toolbar-title>
-      </v-toolbar>
+    <!-- Right Drawer -->
+    <div
+      v-show="props.rightDrawerOpen"
+      class="right-drawer"
+      :style="{ width: rightDrawerWidth + 'px' }"
+    >
+      <div class="resize-handle left" @mousedown="startRightResize"></div>
       <slot name="right-drawer"></slot>
     </div>
 
-    <div class="bottom-drawer">
-      <div class="resize-handle" @mousedown.prevent="startBottomResize"></div>
-      <v-toolbar density="compact" color="surface" class="drawer-header">
-        <v-toolbar-title class="text-caption">Terminal</v-toolbar-title>
-      </v-toolbar>
+    <!-- Bottom Drawer -->
+    <div
+      v-show="props.bottomDrawerOpen"
+      class="bottom-drawer"
+      :style="{
+        height: bottomDrawerHeight + 'px',
+        left: props.leftDrawerOpen ? leftDrawerWidth + 'px' : '0',
+        right: props.rightDrawerOpen ? rightDrawerWidth + 'px' : '0'
+      }"
+    >
+      <div class="resize-handle top" @mousedown="startBottomResize"></div>
       <slot name="bottom-drawer"></slot>
     </div>
 
-    <v-main class="main-content">
+    <!-- Main Content -->
+    <v-main
+      class="main-content"
+      :style="{
+        marginLeft: props.leftDrawerOpen ? `${leftDrawerWidth}px` : '0',
+        marginRight: props.rightDrawerOpen ? `${rightDrawerWidth}px` : '0',
+        marginBottom: props.bottomDrawerOpen ? `${bottomDrawerHeight}px` : '22px'
+      }"
+    >
       <slot></slot>
     </v-main>
 
@@ -110,6 +140,7 @@ const startBottomResize = (e: MouseEvent) => {
 }
 
 .main-content {
+  position: relative;
   padding: 0 0 22px 0 !important;
   margin-left: v-bind(leftDrawerWidth + 'px');
   margin-right: v-bind(rightDrawerWidth + 'px');
@@ -118,39 +149,37 @@ const startBottomResize = (e: MouseEvent) => {
 }
 
 .left-drawer {
-  position: absolute;
+  position: fixed;
   top: 32px;
   left: 0;
-  width: v-bind(leftDrawerWidth + 'px');
-  height: calc(100vh - 54px);
-  background: var(--v-surface-variant);
-  border-right: 1px solid rgba(128, 128, 128, 0.35);
-  display: flex;
-  flex-direction: column;
+  bottom: 22px;
+  background-color: var(--v-theme-surface);
+  z-index: 100;
+  border-right: 1px solid rgba(128, 128, 128, 0.15);
+  /* Only transition opacity and transform for show/hide */
+  transition: opacity 0.3s, transform 0.3s;
 }
 
 .right-drawer {
-  position: absolute;
+  position: fixed;
   top: 32px;
   right: 0;
-  width: v-bind(rightDrawerWidth + 'px');
-  height: calc(100vh - 54px);
-  background: var(--v-surface-variant);
-  border-left: 1px solid rgba(128, 128, 128, 0.35);
-  display: flex;
-  flex-direction: column;
+  bottom: 22px;
+  background-color: var(--v-theme-surface);
+  z-index: 100;
+  border-left: 1px solid rgba(128, 128, 128, 0.15);
+  transition: opacity 0.3s, transform 0.3s;
 }
 
 .bottom-drawer {
-  position: absolute;
+  position: fixed;
+  left: 0;
+  right: 0;
   bottom: 22px;
-  left: v-bind(leftDrawerWidth + 'px');
-  right: v-bind(rightDrawerWidth + 'px');
-  height: v-bind(bottomDrawerHeight + 'px');
-  background: var(--v-surface-variant);
-  border-top: 1px solid rgba(128, 128, 128, 0.35);
-  display: flex;
-  flex-direction: column;
+  background-color: var(--v-theme-surface);
+  z-index: 100;
+  border-top: 1px solid rgba(128, 128, 128, 0.15);
+  transition: opacity 0.3s, transform 0.3s;
 }
 
 .navigation-drawer :deep(.v-navigation-drawer__content) {
@@ -172,35 +201,32 @@ const startBottomResize = (e: MouseEvent) => {
 
 :deep(.v-main) {
   padding: 0 !important;
+  padding-top: 32px !important;
 }
 
 .resize-handle {
   position: absolute;
-  z-index: 2;
+  cursor: col-resize;
+  z-index: 101;
 }
 
-.left-drawer .resize-handle {
-  right: -3px;
-  top: 0;
-  bottom: 0;
-  width: 6px;
-  cursor: ew-resize;
+.resize-handle.right {
+  right: -2px;
+  width: 4px;
+  height: 100%;
 }
 
-.right-drawer .resize-handle {
-  left: -3px;
-  top: 0;
-  bottom: 0;
-  width: 6px;
-  cursor: ew-resize;
+.resize-handle.left {
+  left: -2px;
+  width: 4px;
+  height: 100%;
 }
 
-.bottom-drawer .resize-handle {
-  top: -3px;
-  left: 0;
-  right: 0;
-  height: 6px;
-  cursor: ns-resize;
+.resize-handle.top {
+  top: -2px;
+  width: 100%;
+  height: 4px;
+  cursor: row-resize;
 }
 
 .resize-handle:hover {
