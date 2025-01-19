@@ -20,8 +20,6 @@ export const createMainWindow = async (mainWindow: BrowserWindow): Promise<Brows
     titleBarStyle: process.platform === 'darwin' ? 'hidden' : 'default',
     useContentSize: true,
     webPreferences: {
-      nodeIntegration: false,
-      contextIsolation: true,
       sandbox: true,
       webSecurity: true,
       ...Constants.DEFAULT_WEB_PREFERENCES
@@ -42,9 +40,10 @@ export const createMainWindow = async (mainWindow: BrowserWindow): Promise<Brows
 
   mainWindow.setMenu(null)
 
-  mainWindow.on('close', (event: Event): void => {
-    event.preventDefault()
-    exitApp(mainWindow)
+  app.on('window-all-closed', (): void => {
+    if (mainWindow && !mainWindow.isDestroyed()) {
+      exitApp(mainWindow)
+    }
   })
 
   mainWindow.webContents.on('did-frame-finish-load', (): void => {
