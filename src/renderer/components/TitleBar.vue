@@ -10,7 +10,7 @@
           ? 'background'
           : '#f3f3f3'
     "
-    class="custom-titlebar"
+    class="titlebar"
   >
     <v-img v-if="!isMacOS" src="/icon.png" width="16" height="16" class="mr-2" />
     <span v-if="!isMacOS" class="text-body-2">{{ title }}</span>
@@ -79,6 +79,10 @@ const isMacOS = window.mainApi.platform === 'darwin'
 const isMaximized = ref(false)
 const isFocused = ref(true)
 
+const leftDrawerOpen = ref(true)
+const bottomDrawerOpen = ref(true)
+const rightDrawerOpen = ref(true)
+
 type WindowAction = 'minimize' | 'maximize' | 'close'
 
 const windowControl = (action: WindowAction) => {
@@ -95,10 +99,6 @@ const updateFocus = (event: IpcRendererEvent, focused: boolean) => {
 const updateWindowState = (event: IpcRendererEvent, maximized: boolean) => {
   isMaximized.value = maximized
 }
-
-const leftDrawerOpen = ref(true)
-const bottomDrawerOpen = ref(true)
-const rightDrawerOpen = ref(true)
 
 const getDrawerColor = (isOpen: boolean) => {
   if (theme.global.current.value.dark) {
@@ -120,7 +120,7 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-.custom-titlebar {
+.titlebar {
   -webkit-app-region: drag;
   user-select: none;
 }

@@ -2,6 +2,7 @@
 import { ref, computed } from 'vue'
 import { useTheme } from 'vuetify'
 import StatusBar from '../StatusBar.vue'
+// import TitleBar from '../TitleBar.vue' // Updated import
 
 const props = defineProps({
   leftDrawerOpen: { type: Boolean, default: true },

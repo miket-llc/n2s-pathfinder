@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { DefaultLayout } from '@/renderer/components/layout'
-import CustomTitleBar from '@/renderer/components/CustomTitleBar.vue'
+import TitleBar from '@/renderer/components/TitleBar.vue' // Updated import
 
 // Drawer visibility states
 const leftDrawerOpen = ref(true)
@@ -16,7 +16,7 @@ const rightDrawerOpen = ref(true)
     :right-drawer-open="rightDrawerOpen"
   >
     <template #titlebar>
-      <CustomTitleBar
+      <TitleBar
         :title="'N2S Pathfinder'"
         :left-drawer-open="leftDrawerOpen"
         :bottom-drawer-open="bottomDrawerOpen"
