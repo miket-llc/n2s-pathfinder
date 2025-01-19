@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { useTheme } from 'vuetify'
-import StatusBar from '@/renderer/components/StatusBar.vue'
+import StatusBar from '../StatusBar.vue'
 
 const props = defineProps({
   leftDrawerOpen: { type: Boolean, default: true },
@@ -82,8 +82,8 @@ const startBottomResize = (e: MouseEvent) => {
 const theme = useTheme()
 const handleColor = computed(() =>
   theme.global.current.value.dark
-    ? 'rgba(31, 111, 235, 0.5)'  // githubDark primary with opacity
-    : 'rgba(9, 105, 218, 0.3)'   // githubLight primary with opacity
+    ? 'rgba(31, 111, 235, 0.8)'  // Brighter dark mode blue with higher opacity
+    : 'rgba(3, 102, 214, 0.8)'   // Brighter light mode blue with higher opacity
 )
 </script>
 
