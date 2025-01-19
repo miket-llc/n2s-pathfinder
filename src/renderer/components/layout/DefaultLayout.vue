@@ -1,3 +1,57 @@
+<template>
+  <v-app>
+    <slot name="titlebar"></slot>
+
+    <!-- Left Drawer -->
+    <div
+      v-show="props.leftDrawerOpen"
+      class="left-drawer"
+      :style="{ width: leftDrawerWidth + 'px' }"
+    >
+      <div class="resize-handle right" @mousedown="startLeftResize"></div>
+      <slot name="left-drawer"></slot>
+    </div>
+
+    <!-- Right Drawer -->
+    <div
+      v-show="props.rightDrawerOpen"
+      class="right-drawer"
+      :style="{ width: rightDrawerWidth + 'px' }"
+    >
+      <div class="resize-handle left" @mousedown="startRightResize"></div>
+      <slot name="right-drawer"></slot>
+    </div>
+
+    <!-- Bottom Drawer -->
+    <div
+      v-show="props.bottomDrawerOpen"
+      class="bottom-drawer"
+      :style="{
+        height: bottomDrawerHeight + 'px',
+        left: props.leftDrawerOpen ? leftDrawerWidth + 'px' : '0',
+        right: props.rightDrawerOpen ? rightDrawerWidth + 'px' : '0'
+      }"
+    >
+      <div class="resize-handle top" @mousedown="startBottomResize"></div>
+      <slot name="bottom-drawer"></slot>
+    </div>
+
+    <!-- Main Content -->
+    <v-main
+      class="main-content"
+      :style="{
+        marginLeft: props.leftDrawerOpen ? `${leftDrawerWidth}px` : '0',
+        marginRight: props.rightDrawerOpen ? `${rightDrawerWidth}px` : '0',
+        marginBottom: props.bottomDrawerOpen ? `${bottomDrawerHeight}px` : '22px'
+      }"
+    >
+      <slot></slot>
+    </v-main>
+
+    <StatusBar />
+  </v-app>
+</template>
+
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { useTheme } from 'vuetify'
@@ -88,59 +142,7 @@ const handleColor = computed(() =>
 )
 </script>
 
-<template>
-  <v-app>
-    <slot name="titlebar"></slot>
 
-    <!-- Left Drawer -->
-    <div
-      v-show="props.leftDrawerOpen"
-      class="left-drawer"
-      :style="{ width: leftDrawerWidth + 'px' }"
-    >
-      <div class="resize-handle right" @mousedown="startLeftResize"></div>
-      <slot name="left-drawer"></slot>
-    </div>
-
-    <!-- Right Drawer -->
-    <div
-      v-show="props.rightDrawerOpen"
-      class="right-drawer"
-      :style="{ width: rightDrawerWidth + 'px' }"
-    >
-      <div class="resize-handle left" @mousedown="startRightResize"></div>
-      <slot name="right-drawer"></slot>
-    </div>
-
-    <!-- Bottom Drawer -->
-    <div
-      v-show="props.bottomDrawerOpen"
-      class="bottom-drawer"
-      :style="{
-        height: bottomDrawerHeight + 'px',
-        left: props.leftDrawerOpen ? leftDrawerWidth + 'px' : '0',
-        right: props.rightDrawerOpen ? rightDrawerWidth + 'px' : '0'
-      }"
-    >
-      <div class="resize-handle top" @mousedown="startBottomResize"></div>
-      <slot name="bottom-drawer"></slot>
-    </div>
-
-    <!-- Main Content -->
-    <v-main
-      class="main-content"
-      :style="{
-        marginLeft: props.leftDrawerOpen ? `${leftDrawerWidth}px` : '0',
-        marginRight: props.rightDrawerOpen ? `${rightDrawerWidth}px` : '0',
-        marginBottom: props.bottomDrawerOpen ? `${bottomDrawerHeight}px` : '22px'
-      }"
-    >
-      <slot></slot>
-    </v-main>
-
-    <StatusBar />
-  </v-app>
-</template>
 
 <style scoped>
 .v-app {
