@@ -9,7 +9,9 @@
     "esModuleInterop": true,
     "strict": true,
     "allowSyntheticDefaultImports": true,
-    "allowImportingTsExtensions": true
+    "allowImportingTsExtensions": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true
   },
   "include": [
     "src/main",
