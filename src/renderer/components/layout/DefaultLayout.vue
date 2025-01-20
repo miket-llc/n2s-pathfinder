@@ -45,7 +45,7 @@
         marginBottom: props.bottomDrawerOpen ? `${bottomDrawerHeight}px` : '22px'
       }"
     >
-      <slot></slot>
+      <TabView />
     </v-main>
 
     <StatusBar />
@@ -56,7 +56,8 @@
 import { ref, computed } from 'vue'
 import { useTheme } from 'vuetify'
 import StatusBar from '../StatusBar.vue'
-import NavigationTree from '../NavigationTree.vue' // Import the NavigationTree component
+import NavigationTree from '../NavigationTree.vue'
+import TabView from '../TabView.vue'
 
 const props = defineProps({
   leftDrawerOpen: { type: Boolean, default: true },
@@ -150,11 +151,13 @@ const handleColor = computed(() =>
 
 .main-content {
   position: relative;
-  padding: 0 0 22px 0 !important;
+  padding: 0 !important;
   margin-left: v-bind(leftDrawerWidth + 'px');
   margin-right: v-bind(rightDrawerWidth + 'px');
   margin-bottom: v-bind(bottomDrawerHeight + 'px');
-  height: calc(100vh - 54px - bottomDrawerHeight + 'px') !important;
+  height: calc(100vh - 54px) !important;
+  top: 32px;
+  z-index: 1;
 }
 
 .left-drawer {
@@ -163,7 +166,7 @@ const handleColor = computed(() =>
   left: 0;
   bottom: 22px;
   background-color: var(--v-theme-surface);
-  z-index: 100;
+  z-index: 2;
   border-right: 1px solid rgba(128, 128, 128, 0.15);
   transition: opacity 0.3s, transform 0.3s;
 }
@@ -174,7 +177,7 @@ const handleColor = computed(() =>
   right: 0;
   bottom: 22px;
   background-color: var(--v-theme-surface);
-  z-index: 100;
+  z-index: 2;
   border-left: 1px solid rgba(128, 128, 128, 0.15);
   transition: opacity 0.3s, transform 0.3s;
 }
@@ -185,7 +188,7 @@ const handleColor = computed(() =>
   right: 0;
   bottom: 22px;
   background-color: var(--v-theme-surface);
-  z-index: 100;
+  z-index: 2;
   border-top: 1px solid rgba(128, 128, 128, 0.15);
   transition: opacity 0.3s, transform 0.3s;
 }
