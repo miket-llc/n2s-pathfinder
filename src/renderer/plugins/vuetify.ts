@@ -26,24 +26,9 @@ export default createVuetify({
     }
   },
   theme: {
-    defaultTheme: 'githubDark',
+    defaultTheme: 'dark',
     themes: {
-      githubLight: {
-        dark: false,
-        colors: {
-          background: '#ffffff',
-          surface: '#f6f8fa',
-          primary: '#0366d6',  // Brighter light mode blue
-          secondary: '#24292f',
-          error: '#cf222e',
-          warning: '#dba617',
-          info: '#58a6ff',
-          success: '#2da44e',
-          text: '#24292f'
-        }
-      },
-      githubDark: {
-        dark: true,
+      dark: {
         colors: {
           background: '#0d1117',
           surface: '#161b22',
@@ -57,5 +42,23 @@ export default createVuetify({
         }
       }
     }
-  }
+  },
+  defaults: {
+    VTreeview: {
+      expandIcon: 'mdi-chevron-right',
+      collapseIcon: 'mdi-chevron-down',
+      itemHeight: 28,
+    },
+    VCard: {
+      rounded: 'sm',
+      elevation: 0,
+    },
+    VBtn: {
+      size: 'small',
+      variant: 'text',
+    },
+    global: {
+      density: 'compact',
+    }
+  },
 })

@@ -9,23 +9,7 @@
       :style="{ width: leftDrawerWidth + 'px' }"
     >
       <div class="resize-handle right" @mousedown="startLeftResize"></div>
-      <NavigationTree :items="[
-        {
-          id: '1',
-          name: 'Confluence',
-          children: [
-            { id: '2', name: 'Getting Started' },
-            {
-              id: '3',
-              name: 'Documentation',
-              children: [
-                { id: '4', name: 'Installation' },
-                { id: '5', name: 'Configuration' }
-              ]
-            }
-          ]
-        }
-      ]" />
+      <NavigationTree />
     </div>
 
     <!-- Right Drawer -->
@@ -181,7 +165,6 @@ const handleColor = computed(() =>
   background-color: var(--v-theme-surface);
   z-index: 100;
   border-right: 1px solid rgba(128, 128, 128, 0.15);
-  /* Only transition opacity and transform for show/hide */
   transition: opacity 0.3s, transform 0.3s;
 }
 
@@ -205,28 +188,6 @@ const handleColor = computed(() =>
   z-index: 100;
   border-top: 1px solid rgba(128, 128, 128, 0.15);
   transition: opacity 0.3s, transform 0.3s;
-}
-
-.navigation-drawer :deep(.v-navigation-drawer__content) {
-  padding: 0;
-  margin: 0;
-  height: 100%;
-}
-
-.drawer-header {
-  height: 28px !important;
-  min-height: 28px !important;
-  padding: 0 8px !important;
-}
-
-:deep(.v-toolbar__content) {
-  padding: 0 !important;
-  min-height: 28px !important;
-}
-
-:deep(.v-main) {
-  padding: 0 !important;
-  padding-top: 32px !important;
 }
 
 .resize-handle {
@@ -259,5 +220,82 @@ const handleColor = computed(() =>
 
 :deep(.custom-titlebar) {
   border-bottom: 1px solid rgba(128, 128, 128, 0.35);
+}
+</style>
+
+<style>
+/* Base font size */
+:root {
+  font-size: 13px;
+}
+
+/* Global application styles */
+.v-application {
+  [class*='text-'] {
+    font-size: 13px !important;
+  }
+
+  .v-container {
+    padding: 8px !important;
+  }
+
+  .v-row {
+    margin: 0 -4px;
+  }
+
+  .v-col {
+    padding: 4px;
+  }
+
+  .v-card {
+    padding: 8px;
+  }
+
+  .v-list {
+    padding: 4px !important;
+  }
+
+  .v-list-item {
+    min-height: 32px !important;
+    padding: 0 8px !important;
+  }
+
+  .v-btn {
+    text-transform: none;
+    letter-spacing: normal;
+  }
+
+  /* Tree view specific styles */
+  .v-treeview-item {
+    min-height: 24px !important;
+  }
+
+  .v-treeview-item__label {
+    margin-left: 4px !important;
+  }
+
+  .v-treeview-item__prepend {
+    margin-right: 4px !important;
+  }
+
+  .v-treeview-item__toggle {
+    font-size: 20px !important;
+    width: 24px !important;
+    height: 24px !important;
+  }
+
+  /* Match tree item background to drawer surface color */
+  .v-treeview-item {
+    background-color: var(--v-theme-surface) !important;
+  }
+
+  .v-treeview-item:hover:not(.v-treeview-item--active) {
+    background-color: var(--v-theme-surface) !important;
+  }
+
+  /* Reduce the width of list item spacers */
+  .v-list-item__spacer {
+    width: 8px !important;
+  }
 }
 </style>
