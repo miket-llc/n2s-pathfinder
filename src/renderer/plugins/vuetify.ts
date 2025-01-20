@@ -1,13 +1,17 @@
 import { createVuetify } from 'vuetify'
 import { ko, en, zhHans, zhHant, de, es, ja, fr, ru, pt, nl } from 'vuetify/locale'
 import { aliases, mdi } from 'vuetify/iconsets/mdi'
+import { VTreeview } from 'vuetify/labs/VTreeview'
 import 'vuetify/styles'
 import '@mdi/font/css/materialdesignicons.min.css'
 import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
 
 export default createVuetify({
-  components,
+  components: {
+    ...components,
+    VTreeview,
+  },
   directives,
   locale: {
     messages: { ko, en, zhHans, zhHant, de, es, ja, fr, ru, pt, nl },

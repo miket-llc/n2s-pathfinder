@@ -9,7 +9,23 @@
       :style="{ width: leftDrawerWidth + 'px' }"
     >
       <div class="resize-handle right" @mousedown="startLeftResize"></div>
-      <slot name="left-drawer"></slot>
+      <NavigationTree :items="[
+        {
+          id: '1',
+          name: 'Confluence',
+          children: [
+            { id: '2', name: 'Getting Started' },
+            {
+              id: '3',
+              name: 'Documentation',
+              children: [
+                { id: '4', name: 'Installation' },
+                { id: '5', name: 'Configuration' }
+              ]
+            }
+          ]
+        }
+      ]" />
     </div>
 
     <!-- Right Drawer -->
@@ -56,7 +72,7 @@
 import { ref, computed } from 'vue'
 import { useTheme } from 'vuetify'
 import StatusBar from '../StatusBar.vue'
-// import TitleBar from '../TitleBar.vue' // Updated import
+import NavigationTree from '../NavigationTree.vue' // Import the NavigationTree component
 
 const props = defineProps({
   leftDrawerOpen: { type: Boolean, default: true },
@@ -141,8 +157,6 @@ const handleColor = computed(() =>
     : 'rgba(3, 102, 214, 0.8)'   // Brighter light mode blue with higher opacity
 )
 </script>
-
-
 
 <style scoped>
 .v-app {

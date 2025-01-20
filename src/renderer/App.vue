@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { DefaultLayout } from '@/renderer/components/layout'
-import TitleBar from '@/renderer/components/TitleBar.vue' // Updated import
+import TitleBar from '@/renderer/components/TitleBar.vue'
 
 // Drawer visibility states
 const leftDrawerOpen = ref(true)
