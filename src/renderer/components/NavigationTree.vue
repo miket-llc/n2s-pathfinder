@@ -17,29 +17,8 @@ const testData: TreeNode[] = [
         id: 'getting-started',
         name: 'Getting Started',
         children: [
-          { id: 'installation', name: 'Installation Guide' },
-          { id: 'quick-start', name: 'Quick Start' },
-          { id: 'configuration', name: 'Configuration' },
-          { id: 'prerequisites', name: 'Prerequisites' },
-          { id: 'system-requirements', name: 'System Requirements' },
-          {
-            id: 'platform-specific',
-            name: 'Platform Specific',
-            children: [
-              { id: 'windows-setup', name: 'Windows Setup' },
-              { id: 'mac-setup', name: 'macOS Setup' },
-              { id: 'linux-setup', name: 'Linux Setup' },
-              {
-                id: 'container',
-                name: 'Containers',
-                children: [
-                  { id: 'docker', name: 'Docker Guide' },
-                  { id: 'kubernetes', name: 'Kubernetes Setup' },
-                  { id: 'compose', name: 'Docker Compose' }
-                ]
-              }
-            ]
-          }
+          { id: 'installation', name: 'Installation' },
+          { id: 'configuration', name: 'Configuration' }
         ]
       },
       {
@@ -47,44 +26,7 @@ const testData: TreeNode[] = [
         name: 'Features',
         children: [
           { id: 'core', name: 'Core Features' },
-          {
-            id: 'advanced',
-            name: 'Advanced Features',
-            children: [
-              { id: 'plugins', name: 'Plugins' },
-              { id: 'themes', name: 'Themes' },
-              { id: 'api', name: 'API Reference' },
-              {
-                id: 'customization',
-                name: 'Customization',
-                children: [
-                  { id: 'styling', name: 'Styling Guide' },
-                  { id: 'branding', name: 'Branding' },
-                  { id: 'layouts', name: 'Custom Layouts' },
-                  { id: 'components', name: 'Component Library' }
-                ]
-              }
-            ]
-          },
-          {
-            id: 'integrations',
-            name: 'Integrations',
-            children: [
-              { id: 'aws', name: 'AWS Services' },
-              { id: 'azure', name: 'Azure Services' },
-              { id: 'gcp', name: 'Google Cloud' },
-              {
-                id: 'third-party',
-                name: 'Third Party Services',
-                children: [
-                  { id: 'stripe', name: 'Stripe Integration' },
-                  { id: 'sendgrid', name: 'SendGrid Setup' },
-                  { id: 'twilio', name: 'Twilio Services' },
-                  { id: 'auth0', name: 'Auth0 Integration' }
-                ]
-              }
-            ]
-          }
+          { id: 'advanced', name: 'Advanced Features' }
         ]
       }
     ]
@@ -93,30 +35,8 @@ const testData: TreeNode[] = [
     id: 'tutorials',
     name: 'Tutorials',
     children: [
-      {
-        id: 'beginners',
-        name: 'Beginners',
-        children: Array.from({ length: 10 }, (_, i) => ({
-          id: `tutorial-${i + 1}`,
-          name: `Tutorial ${i + 1}`
-        }))
-      },
-      {
-        id: 'intermediate',
-        name: 'Intermediate',
-        children: Array.from({ length: 8 }, (_, i) => ({
-          id: `int-tutorial-${i + 1}`,
-          name: `Intermediate Tutorial ${i + 1}`
-        }))
-      },
-      {
-        id: 'advanced',
-        name: 'Advanced',
-        children: Array.from({ length: 6 }, (_, i) => ({
-          id: `adv-tutorial-${i + 1}`,
-          name: `Advanced Tutorial ${i + 1}`
-        }))
-      }
+      { id: 'basic', name: 'Basic Tutorial' },
+      { id: 'advanced', name: 'Advanced Tutorial' }
     ]
   },
   {
@@ -201,45 +121,14 @@ const testData: TreeNode[] = [
     :items="testData"
     item-title="name"
     item-children="children"
-    activatable
-    open-on-click
     class="navigation-tree"
-    density="compact"
   />
 </template>
 
 <style>
 .navigation-tree {
-  padding: 8px;
   background-color: var(--v-theme-surface);
   height: 100%;
-}
-
-/* Adjust base node styling */
-.navigation-tree :deep(.v-treeview-node__root) {
-  min-height: 36px;
-}
-
-/* Control indentation by adjusting the level width */
-.navigation-tree :deep(.v-treeview-node__level) {
-  width: 4px !important;
-}
-
-/* Remove any unwanted spacing */
-.navigation-tree :deep(.v-treeview-node__content) {
-  margin-left: 0;
-  padding-left: 0;
-  font-size: 16px;
-}
-
-/* Remove prepend width */
-.navigation-tree :deep(.v-list-item__prepend) {
-  width: 0 !important;
-}
-
-/* Ensure proper vertical alignment */
-.navigation-tree :deep(.v-treeview-node__label) {
-  line-height: 36px;
 }
 
 /* Ensure tree items have the same background */
@@ -247,16 +136,14 @@ const testData: TreeNode[] = [
   background-color: var(--v-theme-surface);
 }
 
-/* Style the expand/collapse icons */
-.navigation-tree :deep(.v-treeview-node__toggle) {
-  width: 36px !important;
-  height: 36px !important;
-  font-size: 24px !important;
+/* Add hover effect */
+.navigation-tree :deep(.v-treeview-node:hover) {
+  background-color: color-mix(in srgb, var(--v-theme-surface) 85%, var(--v-theme-primary));
 }
 
-/* Add some hover effect to the icons */
-.navigation-tree :deep(.v-treeview-node__toggle:hover) {
-  color: var(--v-primary-base);
+/* Style selected state */
+.navigation-tree :deep(.v-treeview-node--selected) {
+  background-color: color-mix(in srgb, var(--v-theme-surface) 70%, var(--v-theme-primary));
 }
 </style>
 

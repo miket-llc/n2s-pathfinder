@@ -10,7 +10,7 @@ import * as directives from 'vuetify/directives'
 export default createVuetify({
   components: {
     ...components,
-    VTreeview,
+    VTreeview
   },
   directives,
   locale: {
@@ -32,7 +32,7 @@ export default createVuetify({
         colors: {
           background: '#0d1117',
           surface: '#161b22',
-          primary: '#1f6feb',  // Brighter dark mode blue
+          primary: '#1f6feb',
           secondary: '#8b949e',
           error: '#f85149',
           warning: '#d29922',
@@ -45,22 +45,27 @@ export default createVuetify({
   },
   defaults: {
     VTreeview: {
+      color: 'primary',
+      density: 'default',
       expandIcon: 'mdi-chevron-right',
       collapseIcon: 'mdi-chevron-down',
-      itemHeight: 28,
+      itemHeight: 34,
+      rounded: 0,
+      selectedColor: 'primary',
+      openOnClick: true,
+      active: true
     },
     VCard: {
       rounded: 'sm',
-      elevation: 0,
+      elevation: 0
     },
     VBtn: {
       size: 'small',
-      variant: 'text',
+      variant: 'text'
     },
     global: {
-      density: 'compact',
-      rounded: 'sm',
-      
+      density: 'comfortable',
+      ripple: false
     }
-  },
+  }
 })

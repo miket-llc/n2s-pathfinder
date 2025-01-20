@@ -1,9 +1,10 @@
-import { app, WebContents, RenderProcessGoneDetails } from 'electron'
+import { app, WebContents, RenderProcessGoneDetails, BrowserWindow } from 'electron'
 import Constants from './utils/Constants'
 import { createErrorWindow, createMainWindow } from './MainRunner'
 
-let mainWindow
-let errorWindow
+let mainWindow: BrowserWindow | null = null
+// eslint-disable-next-line
+let errorWindow: BrowserWindow | null = null
 
 app.on('ready', async () => {
   if (Constants.IS_DEV_ENV) {
@@ -18,12 +19,12 @@ app.on('ready', async () => {
   }
   */
 
-  mainWindow = await createMainWindow(mainWindow)
+  mainWindow = await createMainWindow()
 })
 
 app.on('activate', async () => {
   if (!mainWindow) {
-    mainWindow = await createMainWindow(mainWindow)
+    mainWindow = await createMainWindow()
   }
 })
 
@@ -35,14 +36,13 @@ app.on('window-all-closed', () => {
     app.quit()
   }
 })
-
-app.on(
+;(app as any).on(
   'render-process-gone',
-  (event: Event, webContents: WebContents, details: RenderProcessGoneDetails) => {
-    errorWindow = createErrorWindow(errorWindow, mainWindow, details)
+  async (event: Event, webContents: WebContents, details: RenderProcessGoneDetails) => {
+    errorWindow = await createErrorWindow(mainWindow, details)
   }
 )
 
-process.on('uncaughtException', () => {
-  errorWindow = createErrorWindow(errorWindow, mainWindow)
+process.on('uncaughtException', async () => {
+  errorWindow = await createErrorWindow(mainWindow)
 })

@@ -10,8 +10,8 @@ const exitApp = (mainWindow: BrowserWindow): void => {
   app.exit()
 }
 
-export const createMainWindow = async (mainWindow: BrowserWindow): Promise<BrowserWindow> => {
-  mainWindow = new BrowserWindow({
+export const createMainWindow = async (): Promise<BrowserWindow> => {
+  const mainWindow = new BrowserWindow({
     title: Constants.APP_NAME,
     show: false,
     width: Constants.IS_DEV_ENV ? 1500 : 1200,
@@ -92,15 +92,14 @@ export const createMainWindow = async (mainWindow: BrowserWindow): Promise<Brows
 }
 
 export const createErrorWindow = async (
-  errorWindow: BrowserWindow,
-  mainWindow: BrowserWindow,
+  mainWindow: BrowserWindow | null,
   details?: RenderProcessGoneDetails
 ): Promise<BrowserWindow> => {
   if (!Constants.IS_DEV_ENV) {
     mainWindow?.hide()
   }
 
-  errorWindow = new BrowserWindow({
+  const errorWindow = new BrowserWindow({
     title: Constants.APP_NAME,
     show: false,
     resizable: Constants.IS_DEV_ENV,

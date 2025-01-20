@@ -29,7 +29,7 @@ const switchTab = (tabId: string) => {
 }
 
 const closeTab = (tabId: string) => {
-  const index = tabs.value.findIndex(tab => tab.id === tabId)
+  const index = tabs.value.findIndex((tab) => tab.id === tabId)
   if (index !== -1) {
     tabs.value.splice(index, 1)
     if (activeTab.value === tabId) {
@@ -71,12 +71,7 @@ onMounted(() => {
 
     <!-- Tab Content -->
     <div class="tab-content">
-      <div
-        v-for="tab in tabs"
-        :key="tab.id"
-        v-show="tab.id === activeTab"
-        class="content-pane"
-      >
+      <div v-for="tab in tabs" v-show="tab.id === activeTab" :key="tab.id" class="content-pane">
         {{ tab.content }}
       </div>
     </div>

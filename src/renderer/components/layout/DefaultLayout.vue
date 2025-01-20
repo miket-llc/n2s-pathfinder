@@ -136,10 +136,11 @@ const startBottomResize = (e: MouseEvent) => {
 }
 
 const theme = useTheme()
-const handleColor = computed(() =>
-  theme.global.current.value.dark
-    ? 'rgba(31, 111, 235, 0.8)'  // Brighter dark mode blue with higher opacity
-    : 'rgba(3, 102, 214, 0.8)'   // Brighter light mode blue with higher opacity
+const handleColor = computed(
+  () =>
+    theme.global.current.value.dark
+      ? 'rgba(31, 111, 235, 0.8)' // Brighter dark mode blue with higher opacity
+      : 'rgba(3, 102, 214, 0.8)' // Brighter light mode blue with higher opacity
 )
 </script>
 
@@ -168,7 +169,9 @@ const handleColor = computed(() =>
   background-color: var(--v-theme-surface);
   z-index: 2;
   border-right: 1px solid rgba(128, 128, 128, 0.15);
-  transition: opacity 0.3s, transform 0.3s;
+  transition:
+    opacity 0.3s,
+    transform 0.3s;
 }
 
 .right-drawer {
@@ -179,7 +182,9 @@ const handleColor = computed(() =>
   background-color: var(--v-theme-surface);
   z-index: 2;
   border-left: 1px solid rgba(128, 128, 128, 0.15);
-  transition: opacity 0.3s, transform 0.3s;
+  transition:
+    opacity 0.3s,
+    transform 0.3s;
 }
 
 .bottom-drawer {
@@ -190,7 +195,9 @@ const handleColor = computed(() =>
   background-color: var(--v-theme-surface);
   z-index: 2;
   border-top: 1px solid rgba(128, 128, 128, 0.15);
-  transition: opacity 0.3s, transform 0.3s;
+  transition:
+    opacity 0.3s,
+    transform 0.3s;
 }
 
 .resize-handle {
@@ -204,7 +211,8 @@ const handleColor = computed(() =>
   background-color: v-bind(handleColor);
 }
 
-.resize-handle.right, .resize-handle.left {
+.resize-handle.right,
+.resize-handle.left {
   width: 4px;
   height: 100%;
   cursor: col-resize;
