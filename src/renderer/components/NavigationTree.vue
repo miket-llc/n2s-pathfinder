@@ -204,28 +204,59 @@ const testData: TreeNode[] = [
     activatable
     open-on-click
     class="navigation-tree"
-  >
-    <template #prepend="{ item }">
-      <v-icon
-        size="small"
-        :icon="item.children ? 'mdi-folder' : 'mdi-file-document'"
-        style="margin-right: 2px;"
-      />
-    </template>
-  </v-treeview>
+    density="compact"
+  />
 </template>
 
 <style>
 .navigation-tree {
+  padding: 8px;
+  background-color: var(--v-theme-surface);
+  height: 100%;
+}
+
+/* Adjust base node styling */
+.navigation-tree :deep(.v-treeview-node__root) {
+  min-height: 36px;
+}
+
+/* Control indentation by adjusting the level width */
+.navigation-tree :deep(.v-treeview-node__level) {
+  width: 4px !important;
+}
+
+/* Remove any unwanted spacing */
+.navigation-tree :deep(.v-treeview-node__content) {
+  margin-left: 0;
+  padding-left: 0;
+  font-size: 16px;
+}
+
+/* Remove prepend width */
+.navigation-tree :deep(.v-list-item__prepend) {
+  width: 0 !important;
+}
+
+/* Ensure proper vertical alignment */
+.navigation-tree :deep(.v-treeview-node__label) {
+  line-height: 36px;
+}
+
+/* Ensure tree items have the same background */
+.navigation-tree :deep(.v-treeview-node) {
   background-color: var(--v-theme-surface);
 }
 
-.navigation-tree .v-treeview-node {
-  background-color: var(--v-theme-surface) !important;
+/* Style the expand/collapse icons */
+.navigation-tree :deep(.v-treeview-node__toggle) {
+  width: 36px !important;
+  height: 36px !important;
+  font-size: 24px !important;
 }
 
-.navigation-tree .v-treeview-node:hover:not(.v-treeview-node--active) {
-  background-color: var(--v-theme-surface) !important;
+/* Add some hover effect to the icons */
+.navigation-tree :deep(.v-treeview-node__toggle:hover) {
+  color: var(--v-primary-base);
 }
 </style>
 

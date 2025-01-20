@@ -59,6 +59,8 @@ export default createVuetify({
     },
     global: {
       density: 'compact',
+      rounded: 'sm',
+      
     }
   },
 })
